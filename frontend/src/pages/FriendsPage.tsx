@@ -144,117 +144,82 @@ export const FriendsPage: React.FC<FriendsPageProps> = ({
 
       {/* Filter Tabs */}
       <div className="flex flex-col gap-4 mb-6">
-        <div className="flex items-center gap-2 overflow-x-auto scrollbar-hide">
-          {filter === "friends" ? (
-            <AnimatedGradient
-              gradientColors={[
+        <div className="bg-[rgba(var(--glass-rgb),0.4)] backdrop-blur-md rounded-xl p-1 inline-flex border border-[var(--border-1)] gap-1 overflow-x-auto w-fit">
+          {[
+            { 
+              id: "friends", 
+              label: "Friends", 
+              icon: Users, 
+              count: friendsCount,
+              gradientColors: [
                 "var(--primary-purple)",
                 "var(--primary-pink)",
                 "var(--primary-violet)",
-              ]}
-              className="px-4 py-2 rounded-lg shadow-md cursor-pointer flex items-center gap-2 flex-shrink-0"
-              textClassName="text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)] flex items-center gap-2"
-              duration={20}
-              onClick={() => setFilter("friends")}
-            >
-              <Users size={18} />
-              <span className="font-medium">Friends</span>
-              <span className="ml-1 px-2 py-0.5 bg-white/20 rounded-full text-xs">
-                {friendsCount}
-              </span>
-            </AnimatedGradient>
-          ) : (
-            <div
-              className="px-4 py-2 rounded-lg text-text-2 hover:text-text-1 hover:bg-glass-low transition-all cursor-pointer flex-shrink-0"
-              onClick={() => setFilter("friends")}
-            >
-              <motion.div
-                className="flex items-center space-x-2"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <Users size={18} />
-                <span className="font-medium">Friends</span>
-                <span className="ml-1 px-2 py-0.5 bg-glass-low rounded-full text-xs">
-                  {friendsCount}
-                </span>
-              </motion.div>
-            </div>
-          )}
-
-          {filter === "following" ? (
-            <AnimatedGradient
-              gradientColors={[
+              ]
+            },
+            { 
+              id: "following", 
+              label: "Following", 
+              icon: UserPlus, 
+              count: followingCount,
+              gradientColors: [
                 "var(--primary-teal)",
                 "var(--primary-blue)",
                 "var(--primary-purple)",
-              ]}
-              className="px-4 py-2 rounded-lg shadow-md cursor-pointer flex items-center gap-2 flex-shrink-0"
-              textClassName="text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)] flex items-center gap-2"
-              duration={25}
-              onClick={() => setFilter("following")}
-            >
-              <UserPlus size={18} />
-              <span className="font-medium">Following</span>
-              <span className="ml-1 px-2 py-0.5 bg-white/20 rounded-full text-xs">
-                {followingCount}
-              </span>
-            </AnimatedGradient>
-          ) : (
-            <div
-              className="px-4 py-2 rounded-lg text-text-2 hover:text-text-1 hover:bg-glass-low transition-all cursor-pointer flex-shrink-0"
-              onClick={() => setFilter("following")}
-            >
-              <motion.div
-                className="flex items-center space-x-2"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <UserPlus size={18} />
-                <span className="font-medium">Following</span>
-                <span className="ml-1 px-2 py-0.5 bg-glass-low rounded-full text-xs">
-                  {followingCount}
-                </span>
-              </motion.div>
-            </div>
-          )}
-
-          {filter === "followers" ? (
-            <AnimatedGradient
-              gradientColors={[
+              ]
+            },
+            { 
+              id: "followers", 
+              label: "Followers", 
+              icon: UserCheck, 
+              count: followersCount,
+              gradientColors: [
                 "var(--primary-coral)",
                 "var(--primary-yellow)",
                 "var(--primary-pink)",
-              ]}
-              className="px-4 py-2 rounded-lg shadow-md cursor-pointer flex items-center gap-2 flex-shrink-0"
-              textClassName="text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)] flex items-center gap-2"
-              duration={30}
-              onClick={() => setFilter("followers")}
-            >
-              <UserCheck size={18} />
-              <span className="font-medium">Followers</span>
-              <span className="ml-1 px-2 py-0.5 bg-white/20 rounded-full text-xs">
-                {followersCount}
-              </span>
-            </AnimatedGradient>
-          ) : (
-            <div
-              className="px-4 py-2 rounded-lg text-text-2 hover:text-text-1 hover:bg-glass-low transition-all cursor-pointer flex-shrink-0"
-              onClick={() => setFilter("followers")}
-            >
-              <motion.div
-                className="flex items-center space-x-2"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+              ]
+            }
+          ].map((tab) => {
+            const Icon = tab.icon;
+            const isActive = filter === tab.id;
+            
+            return (
+              <motion.button
+                key={tab.id}
+                onClick={() => setFilter(tab.id as FilterType)}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className={`
+                  relative flex items-center gap-2 px-4 py-2 rounded-lg flex-shrink-0
+                  transition-all duration-300
+                  ${
+                    isActive
+                      ? "text-white"
+                      : "text-[var(--text-2)] hover:text-[var(--text-1)]"
+                  }
+                `}
               >
-                <UserCheck size={18} />
-                <span className="font-medium">Followers</span>
-                <span className="ml-1 px-2 py-0.5 bg-glass-low rounded-full text-xs">
-                  {followersCount}
+                {isActive && (
+                  <motion.div
+                    layoutId="activeFriendsTab"
+                    className="absolute inset-0 rounded-lg shadow-lg animate-gradient-slow"
+                    style={{
+                      background: `linear-gradient(135deg, ${tab.gradientColors.join(", ")})`,
+                      backgroundSize: "200% 200%",
+                    }}
+                    transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                  />
+                )}
+                <Icon size={18} className="relative z-10" />
+                <span className="font-medium relative z-10">{tab.label}</span>
+                <span className={`ml-1 px-2 py-0.5 rounded-full text-xs relative z-10 ${
+                  isActive ? "bg-white/20" : "bg-glass-low"
+                }`}>
+                  {tab.count}
                 </span>
-              </motion.div>
-            </div>
-          )}
+              </motion.button>
+            );
+          })}
         </div>
 
         {/* Search */}

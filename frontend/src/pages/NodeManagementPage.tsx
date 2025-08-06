@@ -276,19 +276,23 @@ export const NodeManagementPage: React.FC = () => {
         {/* Add Node Modal */}
         <AnimatePresence>
           {isAddingNode && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4"
-            >
+            <>
+              {/* Backdrop */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="fixed inset-0 bg-black/50 backdrop-blur-sm z-modal-backdrop"
+                onClick={() => setIsAddingNode(false)}
+              />
+              
+              {/* Modal */}
               <motion.div
                 initial={{ scale: 0.9, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 exit={{ scale: 0.9, opacity: 0 }}
-                className="w-full max-w-md"
+                className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-md glass-card-prominent rounded-lg shadow-xl z-modal p-6"
               >
-                <Card variant="main" className="p-6">
                   <h2 className="text-xl font-semibold text-text-1 mb-4">
                     Add New Node
                   </h2>
@@ -359,7 +363,7 @@ export const NodeManagementPage: React.FC = () => {
                             is_active: e.target.checked,
                           })
                         }
-                        className="rounded border-gray-300"
+                        className="rounded border-[var(--border-1)] bg-input-bg text-[var(--primary-violet)] focus:ring-[var(--primary-violet)] focus:ring-2"
                       />
                       <label
                         htmlFor="is_active"
@@ -386,28 +390,31 @@ export const NodeManagementPage: React.FC = () => {
                       Cancel
                     </AnimatedButton>
                   </div>
-                </Card>
               </motion.div>
-            </motion.div>
+            </>
           )}
         </AnimatePresence>
 
         {/* Edit Node Modal */}
         <AnimatePresence>
           {editingNode && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4"
-            >
+            <>
+              {/* Backdrop */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="fixed inset-0 bg-black/50 backdrop-blur-sm z-modal-backdrop"
+                onClick={cancelEdit}
+              />
+              
+              {/* Modal */}
               <motion.div
                 initial={{ scale: 0.9, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 exit={{ scale: 0.9, opacity: 0 }}
-                className="w-full max-w-md"
+                className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-md glass-card-prominent rounded-lg shadow-xl z-modal p-6"
               >
-                <Card variant="main" className="p-6">
                   <h2 className="text-xl font-semibold text-text-1 mb-4">
                     Edit Node
                   </h2>
@@ -478,7 +485,7 @@ export const NodeManagementPage: React.FC = () => {
                             is_active: e.target.checked,
                           })
                         }
-                        className="rounded border-gray-300"
+                        className="rounded border-[var(--border-1)] bg-input-bg text-[var(--primary-violet)] focus:ring-[var(--primary-violet)] focus:ring-2"
                       />
                       <label
                         htmlFor="edit_is_active"
@@ -505,9 +512,8 @@ export const NodeManagementPage: React.FC = () => {
                       Cancel
                     </AnimatedButton>
                   </div>
-                </Card>
               </motion.div>
-            </motion.div>
+            </>
           )}
         </AnimatePresence>
 

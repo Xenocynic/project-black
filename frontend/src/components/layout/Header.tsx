@@ -163,9 +163,9 @@ export const Header: React.FC<HeaderProps> = ({ onSearchClick }) => {
             </span>
           </Link>
 
-          {/* Center Navigation */}
+          {/* Center Navigation - always visible when user is logged in */}
           {user && (
-            <nav className="hidden md:flex items-center space-x-6">
+            <nav className="flex items-center space-x-6">
               <Link
                 to="/home"
                 className="text-text-2 hover:text-text-1 transition-colors font-medium"

@@ -287,27 +287,45 @@ const ShareModalComponent: React.FC<ShareModalProps> = ({
             </div>
             
             {/* Tabs */}
-            <div className="flex border-b border-border-1">
-              <button
-                onClick={() => setActiveTab('external')}
-                className={`flex-1 px-4 py-3 text-sm font-medium transition-colors ${
-                  activeTab === 'external'
-                    ? 'text-text-1 border-b-2 border-[var(--primary-violet)]'
-                    : 'text-text-2 hover:text-text-1'
-                }`}
-              >
-                Share Externally
-              </button>
-              <button
-                onClick={() => setActiveTab('internal')}
-                className={`flex-1 px-4 py-3 text-sm font-medium transition-colors ${
-                  activeTab === 'internal'
-                    ? 'text-text-1 border-b-2 border-[var(--primary-violet)]'
-                    : 'text-text-2 hover:text-text-1'
-                }`}
-              >
-                Send to Users
-              </button>
+            <div className="px-6 pt-4">
+              <div className="bg-[rgba(var(--glass-rgb),0.4)] backdrop-blur-md rounded-xl p-1 inline-flex w-full border border-[var(--border-1)] gap-1">
+                {[
+                  { id: 'external', label: 'Share Externally' },
+                  { id: 'internal', label: 'Send to Users' }
+                ].map((tab) => {
+                  const isActive = activeTab === tab.id;
+                  
+                  return (
+                    <motion.button
+                      key={tab.id}
+                      onClick={() => setActiveTab(tab.id as 'external' | 'internal')}
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      className={`
+                        relative flex-1 px-4 py-2 rounded-lg font-medium
+                        transition-all duration-300
+                        ${
+                          isActive
+                            ? "text-white"
+                            : "text-[var(--text-2)] hover:text-[var(--text-1)]"
+                        }
+                      `}
+                    >
+                      {isActive && (
+                        <motion.div
+                          layoutId="activeShareTab"
+                          className="absolute inset-0 rounded-lg bg-gradient-to-r from-[var(--primary-purple)] via-[var(--primary-pink)] to-[var(--primary-violet)] shadow-lg animate-gradient-slow"
+                          style={{
+                            backgroundSize: "200% 200%",
+                          }}
+                          transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                        />
+                      )}
+                      <span className="relative z-10 text-sm">{tab.label}</span>
+                    </motion.button>
+                  );
+                })}
+              </div>
             </div>
             
             {/* Content */}

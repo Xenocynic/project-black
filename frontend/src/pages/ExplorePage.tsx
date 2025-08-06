@@ -425,43 +425,43 @@ export const ExplorePage: React.FC = () => {
         </div>
 
         {/* Tabs */}
-        <div className="flex items-center gap-3 overflow-x-auto pb-3 scrollbar-hide">
+        <div className="bg-[rgba(var(--glass-rgb),0.4)] backdrop-blur-md rounded-xl p-1 inline-flex border border-[var(--border-1)] gap-1 overflow-x-auto">
           {tabs.map((tab, index) => {
             const Icon = tab.icon;
             const isActive = activeTab === tab.id;
 
-            return isActive ? (
-              <motion.div
-                key={`${tab.id}-active`}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.05 }}
-              >
-                <AnimatedGradient
-                  gradientColors={tab.gradientColors}
-                  className="flex items-center gap-2 px-4 py-2 rounded-lg font-medium shadow-md cursor-pointer flex-shrink-0"
-                  textClassName="text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)] flex items-center gap-2"
-                  duration={20}
-                  onClick={() => setActiveTab(tab.id as ExploreTab)}
-                >
-                  <Icon size={18} />
-                  <span>{tab.label}</span>
-                </AnimatedGradient>
-              </motion.div>
-            ) : (
-              <motion.div
-                key={`${tab.id}-inactive`}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.05 }}
-                className="flex items-center gap-2 px-4 py-2 rounded-lg font-medium glass-card-subtle text-text-1 hover:text-text-1 transition-all cursor-pointer flex-shrink-0"
+            return (
+              <motion.button
+                key={tab.id}
                 onClick={() => setActiveTab(tab.id as ExploreTab)}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: index * 0.05 }}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className={`
+                  relative flex items-center gap-2 px-4 py-2 rounded-lg flex-shrink-0
+                  transition-all duration-300
+                  ${
+                    isActive
+                      ? "text-white"
+                      : "text-[var(--text-2)] hover:text-[var(--text-1)]"
+                  }
+                `}
               >
-                <Icon size={18} />
-                <span>{tab.label}</span>
-              </motion.div>
+                {isActive && (
+                  <motion.div
+                    layoutId="activeExploreTab"
+                    className="absolute inset-0 rounded-lg bg-gradient-to-r from-[var(--primary-purple)] via-[var(--primary-pink)] to-[var(--primary-violet)] shadow-lg animate-gradient-slow"
+                    style={{
+                      backgroundSize: "200% 200%",
+                    }}
+                    transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                  />
+                )}
+                <Icon size={18} className="relative z-10" />
+                <span className="font-medium relative z-10">{tab.label}</span>
+              </motion.button>
             );
           })}
 

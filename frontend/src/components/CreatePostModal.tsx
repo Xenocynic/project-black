@@ -351,29 +351,31 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
                 </div>
 
                 {/* Content Type Selector */}
-                <div className="flex items-center space-x-2">
-                  {contentTypeOptions.map((option) => {
-                    const Icon = option.icon;
-                    const isSelected = contentType === option.value;
+                <div className="flex items-center overflow-x-auto scrollbar-custom pb-2">
+                  <div className="flex items-center space-x-2 min-w-max">
+                    {contentTypeOptions.map((option) => {
+                      const Icon = option.icon;
+                      const isSelected = contentType === option.value;
 
-                    return (
-                      <motion.button
-                        key={option.value}
-                        type="button"
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                        onClick={() => setContentType(option.value as ContentType)}
-                        className={`flex items-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium transition-all ${
-                          isSelected
-                            ? "bg-[var(--primary-violet)] text-white"
-                            : "glass-card-subtle text-text-2 hover:text-text-1"
-                        }`}
-                      >
-                        <Icon size={16} />
-                        <span>{option.label}</span>
-                      </motion.button>
-                    );
-                  })}
+                      return (
+                        <motion.button
+                          key={option.value}
+                          type="button"
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                          onClick={() => setContentType(option.value as ContentType)}
+                          className={`flex items-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium transition-all min-h-[40px] whitespace-nowrap ${
+                            isSelected
+                              ? "bg-[var(--primary-violet)] text-white"
+                              : "glass-card-subtle text-text-2 hover:text-text-1"
+                          }`}
+                        >
+                          <Icon size={16} />
+                          <span>{option.label}</span>
+                        </motion.button>
+                      );
+                    })}
+                  </div>
                 </div>
 
                 {/* Expandable Sections */}

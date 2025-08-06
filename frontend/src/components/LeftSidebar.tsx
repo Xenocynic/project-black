@@ -2,7 +2,6 @@ import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
-  Home,
   Users,
   Star,
   Hash,
@@ -33,7 +32,6 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({
   const currentPath = location.pathname;
 
   const navItems = [
-    { path: "/home", icon: Home, label: "Home Feed" },
     { path: "/friends", icon: Users, label: "Friends" },
     { path: "/liked", icon: Star, label: "Liked" },
     { path: "/node-management", icon: Server, label: "Node Management" },

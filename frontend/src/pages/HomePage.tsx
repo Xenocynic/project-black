@@ -166,82 +166,48 @@ export const HomePage: React.FC = () => {
         </h1>
 
         {/* Feed Tabs */}
-        <div className="flex items-center space-x-2">
-          {feed === "all" ? (
-            <AnimatedGradient
-              gradientColors={[
-                "var(--primary-purple)",
-                "var(--primary-pink)",
-                "var(--primary-teal)",
-                "var(--primary-violet)",
-              ]}
-              className="px-3 py-1.5 rounded-lg text-sm font-medium shadow-md cursor-pointer"
-              textClassName="text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]"
-              duration={20}
-              onClick={() => setFeed("all")}
-            >
-              All
-            </AnimatedGradient>
-          ) : (
-            <button
-              onClick={() => setFeed("all")}
-              className="px-3 py-1.5 rounded-lg text-sm font-medium transition-colors text-text-2 hover:text-text-1 hover:bg-[rgba(var(--glass-rgb),0.3)]"
-            >
-              All
-            </button>
-          )}
-
-          {feed === "friends" ? (
-            <AnimatedGradient
-              gradientColors={[
-                "var(--primary-teal)",
-                "var(--primary-blue)",
-                "var(--primary-purple)",
-                "var(--primary-teal)",
-              ]}
-              className="px-3 py-1.5 rounded-lg text-sm font-medium shadow-md cursor-pointer flex items-center"
-              textClassName="text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)] flex items-center"
-              duration={25}
-              onClick={() => setFeed("friends")}
-            >
-              <Users size={16} className="mr-1" />
-              Friends
-            </AnimatedGradient>
-          ) : (
-            <button
-              onClick={() => setFeed("friends")}
-              className="px-3 py-1.5 rounded-lg text-sm font-medium transition-colors text-text-2 hover:text-text-1 hover:bg-[rgba(var(--glass-rgb),0.3)] flex items-center"
-            >
-              <Users size={16} className="mr-1" />
-              Friends
-            </button>
-          )}
-
-          {feed === "liked" ? (
-            <AnimatedGradient
-              gradientColors={[
-                "var(--primary-coral)",
-                "var(--primary-yellow)",
-                "var(--primary-pink)",
-                "var(--primary-coral)",
-              ]}
-              className="px-3 py-1.5 rounded-lg text-sm font-medium shadow-md cursor-pointer flex items-center"
-              textClassName="text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)] flex items-center"
-              duration={30}
-              onClick={() => setFeed("liked")}
-            >
-              <Star size={16} className="mr-1" />
-              Liked
-            </AnimatedGradient>
-          ) : (
-            <button
-              onClick={() => setFeed("liked")}
-              className="px-3 py-1.5 rounded-lg text-sm font-medium transition-colors text-text-2 hover:text-text-1 hover:bg-[rgba(var(--glass-rgb),0.3)] flex items-center"
-            >
-              <Star size={16} className="mr-1" />
-              Liked
-            </button>
-          )}
+        <div className="bg-[rgba(var(--glass-rgb),0.4)] backdrop-blur-md rounded-xl p-1 inline-flex border border-[var(--border-1)] gap-1">
+          {[
+            { id: "all", label: "All", icon: Globe, gradient: "from-[var(--primary-purple)] via-[var(--primary-pink)] to-[var(--primary-violet)]" },
+            { id: "friends", label: "Friends", icon: Users, gradient: "from-[var(--primary-teal)] via-[var(--primary-blue)] to-[var(--primary-purple)]" },
+            { id: "liked", label: "Liked", icon: Star, gradient: "from-[var(--primary-coral)] via-[var(--primary-yellow)] to-[var(--primary-pink)]" }
+          ].map((tab) => {
+            const Icon = tab.icon;
+            const isActive = feed === tab.id;
+            
+            return (
+              <motion.button
+                key={tab.id}
+                onClick={() => setFeed(tab.id as "all" | "friends" | "liked")}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className={`
+                  relative flex items-center gap-1.5 px-3 py-1.5 rounded-lg
+                  transition-all duration-300
+                  ${
+                    isActive
+                      ? "text-white"
+                      : "text-[var(--text-2)] hover:text-[var(--text-1)]"
+                  }
+                `}
+              >
+                {isActive && (
+                  <motion.div
+                    layoutId="activeFeedTab"
+                    className={`absolute inset-0 rounded-lg bg-gradient-to-r ${tab.gradient} shadow-lg animate-gradient-slow`}
+                    style={{
+                      backgroundSize: "200% 200%",
+                    }}
+                    transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                  />
+                )}
+                <Icon size={16} className="relative z-10" />
+                <span className="font-medium text-sm relative z-10">
+                  {tab.label}
+                </span>
+              </motion.button>
+            );
+          })}
         </div>
       </div>
 
